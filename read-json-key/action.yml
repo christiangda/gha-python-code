@@ -23,9 +23,4 @@ runs:
       shell: bash
       run: |
         out=$(python $GITHUB_ACTION_PATH/../read_json_key.py --file ${{ inputs.path }} --key ${{ inputs.key }})
-        echo "::set-output name=value::$out"
-        # {
-        #   echo 'value<<EOF'
-        #   echo $out
-        #   echo 'EOF'
-        # } >> "$GITHUB_OUTPUT"
+        echo "value=$(echo $out)" >> $GITHUB_OUTPUT
