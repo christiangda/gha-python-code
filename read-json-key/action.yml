@@ -1,0 +1,31 @@
+name: read-json-key
+author: Christian González Di Antonio
+description: This action reads a JSON file and returns the value of a key
+
+inputs:
+  path:
+    description: path to the JSON file
+    required: true
+  key:
+    description: key to read
+    required: true
+
+outputs:
+  value:
+    description: value of the key
+    value: ${{ steps.read-json-key.outputs.response }}
+
+runs:
+  using: composite
+  steps:
+    - name: Read JSON key
+      id: read-json-key
+      shell: bash
+      run: |
+        out=$(python $GITHUB_ACTION_PATH/../read_json_key.py --file ${{ inputs.path }} --key ${{ inputs.key }})
+        echo "::set-output name=value::$out"
+        # {
+        #   echo 'value<<EOF'
+        #   echo $out
+        #   echo 'EOF'
+        # } >> "$GITHUB_OUTPUT"
