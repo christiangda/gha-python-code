@@ -13,7 +13,7 @@ inputs:
 outputs:
   value:
     description: value of the key
-    value: ${{ steps.read-json-key.outputs.response }}
+    value: ${{ steps.read-json-key.outputs.value }}
 
 runs:
   using: composite
@@ -23,4 +23,5 @@ runs:
       shell: bash
       run: |
         out=$(python $GITHUB_ACTION_PATH/../read_json_key.py --file ${{ inputs.path }} --key ${{ inputs.key }})
-        echo "value=$(echo $out)" >> $GITHUB_OUTPUT
+
+        echo "::set-output name=value::$out"
