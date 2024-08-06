@@ -22,6 +22,6 @@ runs:
       id: read-json-key
       shell: bash
       run: |
-        out=$(python $GITHUB_ACTION_PATH/../read_json_key.py --file ${{ inputs.file }} --key ${{ inputs.key }})
+        out=$(python $GITHUB_ACTION_PATH/../read_key.py --file ${{ inputs.file }} --key ${{ inputs.key }})
 
         echo "value=$out" >> $GITHUB_OUTPUT
