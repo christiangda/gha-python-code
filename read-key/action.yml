@@ -3,8 +3,8 @@ author: Christian González Di Antonio
 description: This action reads a JSON file and returns the value of a key
 
 inputs:
-  path:
-    description: path to the JSON file
+  file:
+    description: File to read
     required: true
   key:
     description: key to read
@@ -22,6 +22,6 @@ runs:
       id: read-json-key
       shell: bash
       run: |
-        out=$(python $GITHUB_ACTION_PATH/../read_json_key.py --file ${{ inputs.path }} --key ${{ inputs.key }})
+        out=$(python $GITHUB_ACTION_PATH/../read_json_key.py --file ${{ inputs.file }} --key ${{ inputs.key }})
 
         echo "value=$out" >> $GITHUB_OUTPUT

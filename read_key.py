@@ -4,6 +4,7 @@
 import sys
 import argparse
 import json
+import yaml
 import logging
 
 # send log messages to stderr to avoid mixing with the output
@@ -29,28 +30,31 @@ def get_key(data: dict, key: str) -> str:
     return None
 
 def main(arguments: any) -> int:
-    """Reads a JSON file and extracts a key from it
-
-    Args:
-        arguments (any): --file: Input file, --key: Key to extract
-
-    Returns:
-        str: Value of the key
-        int: 0 if successful, 1 if an error occurred
-    """
     parser = argparse.ArgumentParser(
-        description=__doc__, formatter_class=argparse.ArgumentDefaultsHelpFormatter
+        description="Read a key value from a JSON or YAML file",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
+
     parser.add_argument("-f", "--file", required=True, default=sys.stdin, type=argparse.FileType("r",encoding='UTF-8'), help="Input file")
     parser.add_argument("-k", "--key", required=True,  type=str, help="Key to extract")
+
     args = parser.parse_args(arguments)
 
     key = args.key
     data = None
 
     try:
-
         log.info(f"Reading file: {args.file.name}")
+
+        _, ext = args.file.name.split(".")
+        if ext == "json":
+            data = json.load(args.file)
+        elif ext == "yaml" or ext == "yml":
+            data = yaml.safe_load(args.file)
+        else:
+            log.error(f"Unsupported file format: {ext}")
+            sys.exit(1)
+
         with args.file as file:
             data = json.load(file)
 
