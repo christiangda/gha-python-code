@@ -55,9 +55,6 @@ def main(arguments: any) -> int:
             log.error(f"Unsupported file format: {ext}")
             sys.exit(1)
 
-        with args.file as file:
-            data = json.load(file)
-
         log.info(f"Extracting key: {key}")
         data = get_key(data, key)
         if data:
